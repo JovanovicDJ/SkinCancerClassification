@@ -45,3 +45,27 @@ if __name__ == '__main__':
     Y = df['label']
     Y_cat = to_categorical(Y, num_classes=CLASSES)
     x_train, x_test, y_train, y_test = train_test_split(X, Y_cat, test_size=0.3, random_state=42)
+
+    model = Sequential()
+    model.add(Conv2D(128, (3, 3), activation="relu", input_shape=(SIZE, SIZE, 3)))
+    # model.add(BatchNormalization())
+    model.add(MaxPool2D(pool_size=(2, 2)))
+    model.add(Dropout(0.3))
+
+    model.add(Conv2D(64, (3, 3), activation='relu'))
+    # model.add(BatchNormalization())
+    model.add(MaxPool2D(pool_size=(2, 2)))
+    model.add(Dropout(0.3))
+
+    model.add(Conv2D(32, (3, 3), activation='relu'))
+    # model.add(BatchNormalization())
+    model.add(MaxPool2D(pool_size=(2, 2)))
+    model.add(Dropout(0.3))
+    model.add(Flatten())
+
+    model.add(Dense(16))
+    model.add(Dense(7, activation='softmax'))
+
+    model.summary()
+
+    model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['acc'])
