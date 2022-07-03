@@ -17,6 +17,39 @@ from keras.callbacks import ReduceLROnPlateau
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, classification_report
 
+def visualisePlots(X, Y, model, rows, columns):
+    class_dicts = {
+        0: 'nv',
+        1: 'mel',
+        2: 'bkl',
+        3: 'bcc',
+        4: 'akiec',
+        5: 'vasc',
+        6: 'df',
+    }
+
+    data = []
+    target = []
+
+    Y_pred = model.predict(X)
+    Y_pred = np.array(list(map(lambda x: np.argmax(x), Y_pred)))
+
+    for i in range(rows * columns):
+        data.append(X[i])
+        target.append(Y[i])
+
+    width = 10
+    height = 10
+    fig = plt.figure(figsize=(10, 10))
+    for i in range(columns * rows):
+        temp_img = array_to_img(data[i])
+        fig.add_subplot(rows, columns, i + 1)
+        plt.imshow(temp_img)
+        plt.xticks([])
+        plt.yticks([])
+        plt.title(str(class_dicts[target[i][0]]) + " || " + str(class_dicts[Y_pred[i]]))
+    plt.show()
+
 if __name__ == '__main__':
     warnings.simplefilter(action="ignore", category=FutureWarning)
     warnings.simplefilter(action="ignore", category=UserWarning)
@@ -162,6 +195,8 @@ if __name__ == '__main__':
     plt.title('The confusion matrix of model on test set')
     sns.heatmap(cm1, annot=True, fmt='g', vmin=0, cmap='viridis')
     plt.show()
+
+    visualisePlots(X_test, Y_test, model, 3, 3)
 
     label_mapping = {
         0: 'nv',
