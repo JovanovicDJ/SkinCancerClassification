@@ -69,3 +69,48 @@ if __name__ == '__main__':
     model.summary()
 
     model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['acc'])
+
+    
+    batch_size = 16
+    epochs = 25
+
+    history = model.fit(
+        x_train, y_train,  # data, labels
+        epochs=epochs,
+        batch_size=batch_size,
+        validation_data=(x_test, y_test),
+        verbose=2)
+
+    score = model.evaluate(x_test, y_test)
+    print('Test accuracy:', score[1])
+
+    loss = history.history['loss']
+    val_loss = history.history['val_loss']
+    epochs = range(1, len(loss) + 1)
+    plt.plot(epochs, loss, 'y', label='Training loss')
+    plt.plot(epochs, val_loss, 'r', label='Validation loss')
+    plt.title('Training and validation loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.show()
+
+    acc = history.history['acc']
+    val_acc = history.history['val_acc']
+    plt.plot(epochs, acc, 'y', label='Training acc')
+    plt.plot(epochs, val_acc, 'r', label='Validation acc')
+    plt.title('Training and validation accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
+    plt.legend()
+    plt.show()
+
+    y_pred = model.predict(x_test)
+    y_pred_classes = np.argmax(y_pred, axis=1)
+    y_true = np.argmax(y_test, axis=1)
+
+    cm = confusion_matrix(y_true, y_pred_classes)
+    plt.figure(figsize=(12, 6))
+    plt.title('The confusion matrix of model on test set')
+    sns.heatmap(cm, annot=True, fmt='g', vmin=0, cmap='viridis')
+    plt.show()
