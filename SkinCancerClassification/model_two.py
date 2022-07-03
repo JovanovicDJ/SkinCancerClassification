@@ -17,6 +17,7 @@ from keras.callbacks import ReduceLROnPlateau
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, classification_report
 
+
 def visualisePlots(X, Y, model, rows, columns):
     class_dicts = {
         0: 'nv',
@@ -49,6 +50,7 @@ def visualisePlots(X, Y, model, rows, columns):
         plt.yticks([])
         plt.title(str(class_dicts[target[i][0]]) + " || " + str(class_dicts[Y_pred[i]]))
     plt.show()
+
 
 if __name__ == '__main__':
     warnings.simplefilter(action="ignore", category=FutureWarning)

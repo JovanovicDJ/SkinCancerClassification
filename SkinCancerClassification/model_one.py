@@ -70,7 +70,6 @@ if __name__ == '__main__':
 
     model.compile(loss='categorical_crossentropy', optimizer='Adam', metrics=['acc'])
 
-    
     batch_size = 16
     epochs = 25
 
