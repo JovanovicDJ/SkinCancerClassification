@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     print(df['dx'].value_counts())
 
-    # Preparing data for neural network (Normalization and data split for training and testing)
+    # Preparing data for neural network (normalization and data split for training and testing)
     X = np.asarray(df['image'].tolist())
     X = X / 255.
     Y = df['label']
